@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:tempo_template/utilities/constants.dart';
+import '../services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({Key? key}) : super(key: key);
+  final dynamic locationWeatherData;
+
+  const LocationScreen({required this.locationWeatherData, Key? key}) : super(key: key);
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  late int temperature;  // o valor, em inteiros, da temperatura
+  late String weatherIcon;  // o ícone para a condição climática
+  late String cityName;  // o nome da cidade
+  late String message;  // Frase para o usuário, de acordo com a temperatura
+
+  WeatherModel weather = WeatherModel();
+
   @override
+  void initState() {
+    super.initState();
+    updateUI(widget.locationWeatherData);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -31,7 +46,10 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var weatherData = await weather.getLocationWeather();
+                      updateUI(weatherData);
+                    },
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,
@@ -75,4 +93,23 @@ class _LocationScreenState extends State<LocationScreen> {
       ),
     );
   }
+
+  void pushToLocationScreen(dynamic weatherData) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LocationScreen(locationWeatherData: weatherData);
+    }));
+  }
+
+  void updateUI(dynamic weatherData) {
+    setState(() {
+      var condition = weatherData['weather'][0]['id'];
+      weatherIcon = weather.getWeatherIcon(condition);
+      double temp = weatherData['main']['temp'];
+      temperature = temp.toInt();
+      message = weather.getMessage(temperature);
+      cityName = weatherData['name'];
+    });
+  }
+
+
 }
