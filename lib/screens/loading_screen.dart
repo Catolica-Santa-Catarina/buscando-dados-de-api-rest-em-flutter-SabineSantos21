@@ -53,24 +53,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     pushToLocationScreen(weatherData);
   }
 
-  /*void getData(double latitude, double longitude) async {
-    var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric');
-    http.Response response = await http.get(url);
-
-    if (response.statusCode == 200) { // se a requisição foi feita com sucesso
-      var data = response.body;
-      var jsonData = jsonDecode(data);
-
-      var cityName = jsonData['name'];
-      var temperature = jsonData['main']['temp'];
-      var weatherCondition = jsonData['weather'][0]['id'];
-      print('cidade: $cityName, temperatura: $temperature, condição: $weatherCondition');
-      print(data);  // imprima o resultado
-    } else {
-      print(response.statusCode);  // senão, imprima o código de erro
-    }
-  }*/
-
   void pushToLocationScreen(dynamic weatherData) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LocationScreen(locationWeatherData: weatherData);
