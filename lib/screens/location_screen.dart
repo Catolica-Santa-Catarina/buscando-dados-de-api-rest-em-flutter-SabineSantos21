@@ -67,22 +67,22 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Row(
-                  children: const [
+                  children: [
                     Text(
-                      '32°',
+                      '$temperatureºC',
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '☀️',
+                      weatherIcon,
                       style: kConditionTextStyle,
                     )
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(right: 15.0),
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0),
                 child: Text(
-                  'É tempo de 🍦 em Joinville!',
+                  '$message em $cityName!',
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
